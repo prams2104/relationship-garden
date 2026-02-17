@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "Relationship Garden",
+    "slug": "relationship-garden",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "relationship-garden",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F8F6F1"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.relationshipgarden.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#F8F6F1"
+      },
+      "package": "com.relationshipgarden.app"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-asset",
+      "expo-font",
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Allow Relationship Garden to access your contacts to plant your garden."
+        }
+      ],
+      "expo-document-picker"
+    ]
+  }
+}
