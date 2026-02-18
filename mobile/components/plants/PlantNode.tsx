@@ -270,13 +270,13 @@ function OrchidBody({
         fill="#4A7C3D"
         opacity={0.8}
       />
-      <AnimatedG {...flowerOpacityProps}>
+      <G>
         {[0, 72, 144, 216, 288].map((a) => {
           const r = (a * Math.PI) / 180;
           const px = flowerX + Math.cos(r) * 4;
           const py = flowerY + Math.sin(r) * 4;
           return (
-            <Ellipse
+            <AnimatedEllipse
               key={a}
               cx={px}
               cy={py}
@@ -285,11 +285,18 @@ function OrchidBody({
               fill="#E8D44D"
               rotation={a}
               origin={`${px}, ${py}`}
+              {...flowerOpacityProps}
             />
           );
         })}
-        <Circle cx={flowerX} cy={flowerY} r={1.5} fill="#E8D44D" />
-      </AnimatedG>
+        <AnimatedCircle
+          cx={flowerX}
+          cy={flowerY}
+          r={1.5}
+          fill="#E8D44D"
+          {...flowerOpacityProps}
+        />
+      </G>
     </G>
   );
 }

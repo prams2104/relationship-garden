@@ -23,6 +23,7 @@ export default function RootLayout() {
           contentStyle: { backgroundColor: "#F8F6F1" },
         }}
       >
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="contact/[id]"

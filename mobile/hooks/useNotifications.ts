@@ -54,14 +54,9 @@ export function useNotifications() {
       });
 
     return () => {
-      if (notificationListener.current) {
-        Notifications.removeNotificationSubscription(
-          notificationListener.current
-        );
-      }
-      if (responseListener.current) {
-        Notifications.removeNotificationSubscription(responseListener.current);
-      }
+      // Use subscription.remove() — Expo Go doesn't have removeNotificationSubscription
+      notificationListener.current?.remove?.();
+      responseListener.current?.remove?.();
     };
   }, []);
 

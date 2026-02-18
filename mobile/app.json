@@ -34,7 +34,8 @@
           "contactsPermission": "Allow Relationship Garden to access your contacts to plant your garden."
         }
       ],
-      "expo-document-picker"
+      "expo-document-picker",
+      "expo-web-browser"
     ]
   }
 }

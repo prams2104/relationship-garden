@@ -18,18 +18,19 @@ const AuthContext = createContext<AuthState>({
   signOut: async () => {},
 });
 
+const DEV_EMAIL = "pramesh@relationshipgarden.dev";
+const DEV_PASSWORD = "devpassword123!";
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setLoading(false);
     });
 
-    // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -39,30 +40,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Auto-login for development
+  // Dev auto-login: skip login screen and go straight to app
   useEffect(() => {
-    if (!loading && !session) {
-      devAutoLogin();
-    }
+    if (loading || session) return;
+    if (!__DEV__) return;
+
+    supabase.auth.signInWithPassword({ email: DEV_EMAIL, password: DEV_PASSWORD }).then(({ error }) => {
+      if (error) console.warn("Dev auto-login failed:", error.message);
+    });
   }, [loading, session]);
 
-  async function devAutoLogin() {
-    if (__DEV__) {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: "pramesh@relationshipgarden.dev",
-        password: "devpassword123!",
-      });
-      if (error) {
-        console.warn("Dev auto-login failed:", error.message);
-      }
-    }
-  }
-
   async function signIn(email: string, password: string) {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
   }
 
