@@ -1,8 +1,6 @@
 import type { RelationshipTier, GrowthStage } from "@/types/garden";
-import OrchidPlant from "./OrchidPlant";
-import FernPlant from "./FernPlant";
+import PlantNode from "./PlantNode";
 import BonsaiPlant from "./BonsaiPlant";
-import SucculentPlant from "./SucculentPlant";
 
 interface Props {
   tier: RelationshipTier;
@@ -15,20 +13,19 @@ interface Props {
  * PlantIllustration — routes to the correct botanical SVG
  * based on relationship tier.
  *
- * Each plant type responds to health (0→1) and growth stage,
- * changing its visual density, color saturation, and posture.
+ * Fern, Succulent, Orchid use PlantNode (procedural, data-driven:
+ * wilting logic, smooth color/tilt transitions, tier-specific shapes).
+ * Bonsai keeps the existing BonsaiPlant illustration.
  */
 export default function PlantIllustration({ tier, health, stage, size = 64 }: Props) {
-  switch (tier) {
-    case "orchid":
-      return <OrchidPlant size={size} health={health} stage={stage} />;
-    case "fern":
-      return <FernPlant size={size} health={health} stage={stage} />;
-    case "bonsai":
-      return <BonsaiPlant size={size} health={health} stage={stage} />;
-    case "succulent":
-      return <SucculentPlant size={size} health={health} stage={stage} />;
-    default:
-      return <FernPlant size={size} health={health} stage={stage} />;
+  if (tier === "bonsai") {
+    return <BonsaiPlant size={size} health={health} stage={stage} />;
   }
+  return (
+    <PlantNode
+      tier={tier === "orchid" ? "orchid" : tier === "succulent" ? "succulent" : "fern"}
+      health={health}
+      size={size}
+    />
+  );
 }
